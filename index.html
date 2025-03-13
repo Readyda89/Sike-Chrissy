@@ -1,22 +1,97 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Congrats!</title>
+    <title>Congratulations!</title>
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: white;
+            text-align: center;
             font-family: Arial, sans-serif;
-            font-size: 50px;
+            background-color: black;
+            color: white;
+            overflow: hidden;
+        }
+        #message {
+            font-size: 40px;
             font-weight: bold;
+            margin-top: 20%;
+            display: none;
             color: red;
+        }
+        #loading {
+            font-size: 30px;
+        }
+        #progress-bar {
+            width: 50%;
+            height: 30px;
+            background-color: grey;
+            margin: 20px auto;
+            position: relative;
+            border-radius: 5px;
+        }
+        #progress {
+            height: 100%;
+            width: 0%;
+            background-color: green;
+            border-radius: 5px;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: yellow;
+            opacity: 0.7;
+            animation: fall 3s linear infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(720deg); }
         }
     </style>
 </head>
 <body>
-    SIKE, CHRISSY!
+
+    <h1 id="loading">Processing Your $40,000 Prize...</h1>
+    <div id="progress-bar">
+        <div id="progress"></div>
+    </div>
+
+    <h1 id="message">SIKE, CHRISSY!</h1>
+
+    <script>
+        let progress = document.getElementById("progress");
+        let message = document.getElementById("message");
+        let loadingText = document.getElementById("loading");
+
+        let width = 0;
+        let interval = setInterval(function() {
+            if (width >= 100) {
+                clearInterval(interval);
+                loadingText.style.display = "none";
+                document.getElementById("progress-bar").style.display = "none";
+                message.style.display = "block";
+                playSound();
+                startConfetti();
+            } else {
+                width++;
+                progress.style.width = width + "%";
+            }
+        }, 50);
+
+        function playSound() {
+            let audio = new Audio("https://www.myinstants.com/media/sounds/vine-boom.mp3");
+            audio.play();
+        }
+
+        function startConfetti() {
+            for (let i = 0; i < 50; i++) {
+                let confetti = document.createElement("div");
+                confetti.className = "confetti";
+                confetti.style.left = Math.random() * window.innerWidth + "px";
+                confetti.style.animationDuration = (Math.random() * 2 + 1) + "s";
+                document.body.appendChild(confetti);
+            }
+        }
+    </script>
+
 </body>
 </html>
